@@ -1,23 +1,26 @@
 from typing import List, Dict
 
-
 def filter_by_state(data: List[Dict], state: str = "EXECUTED") -> List[Dict]:
     """
-    Фильтрует список словарей по указанному состоянию.
+    Фильтрует список операций по указанному статусу.
 
-    :param data: Список словарей с ключами 'id', 'state', 'date'.
-    :param state: Состояние, по которому фильтруются данные. По умолчанию 'EXECUTED'.
-    :return: Новый список, содержащий только словари с указанным состоянием.
+    :param data: Список словарей, содержащий операции.
+    :param state: Статус, по которому фильтруются операции. По умолчанию 'EXECUTED'.
+    :return: Список операций с указанным статусом.
     """
-    return [item for item in data if item.get("state") == state]
+    return [operation for operation in data if operation.get("state") == state]
 
+
+
+from typing import List, Dict
 
 def sort_by_date(data: List[Dict], reverse: bool = True) -> List[Dict]:
     """
-    Сортирует список словарей по ключу 'date'.
+    Сортирует список операций по дате.
 
-    :param data: Список словарей с ключами 'id', 'state', 'date'.
-    :param reverse: Порядок сортировки. По умолчанию True (убывание).
-    :return: Новый список, отсортированный по ключу 'date'.
+    :param data: Список словарей, содержащий операции.
+    :param reverse: Указывает порядок сортировки: True — по убыванию, False — по возрастанию.
+    :return: Отсортированный список операций.
     """
-    return sorted(data, key=lambda x: x["date"], reverse=reverse)
+    return sorted(data, key=lambda operation: operation["date"], reverse=reverse)
+
