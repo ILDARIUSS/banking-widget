@@ -1,5 +1,6 @@
 from typing import List, Dict
 
+
 def filter_by_state(data: List[Dict], state: str = "EXECUTED") -> List[Dict]:
     """
     Фильтрует список операций по указанному статусу.
@@ -11,9 +12,6 @@ def filter_by_state(data: List[Dict], state: str = "EXECUTED") -> List[Dict]:
     return [operation for operation in data if operation.get("state") == state]
 
 
-
-from typing import List, Dict
-
 def sort_by_date(data: List[Dict], reverse: bool = True) -> List[Dict]:
     """
     Сортирует список операций по дате.
@@ -23,4 +21,3 @@ def sort_by_date(data: List[Dict], reverse: bool = True) -> List[Dict]:
     :return: Отсортированный список операций.
     """
     return sorted(data, key=lambda operation: operation["date"], reverse=reverse)
-
