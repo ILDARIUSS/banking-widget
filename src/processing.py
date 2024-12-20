@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import Dict, List
 
 
@@ -14,10 +15,14 @@ def filter_by_state(data: List[Dict], state: str = "EXECUTED") -> List[Dict]:
 
 def sort_by_date(data: List[Dict], reverse: bool = True) -> List[Dict]:
     """
-    Сортирует список операций по дате.
+    Сортирует список словарей по ключу 'date'.
 
-    :param data: Список словарей, содержащий операции.
-    :param reverse: Указывает порядок сортировки: True — по убыванию, False — по возрастанию.
-    :return: Отсортированный список операций.
+    :param data: Список словарей с ключами 'id', 'state', 'date'.
+    :param reverse: Порядок сортировки. По умолчанию True (убывание).
+    :return: Новый список, отсортированный по ключу 'date'.
+    :raises ValueError: Если формат даты некорректен.
     """
-    return sorted(data, key=lambda operation: operation["date"], reverse=reverse)
+    try:
+        return sorted(data, key=lambda x: datetime.fromisoformat(x["date"]), reverse=reverse)
+    except Exception as e:
+        raise ValueError(f"Invalid date format: {e}")
