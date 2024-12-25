@@ -1,38 +1,38 @@
 import pytest
-from src.generators import (
-    card_number_generator,
-    filter_by_currency,
-    transaction_descriptions,
-)
+from generators import filter_by_currency, transaction_descriptions, card_number_generator
 
-
-def test_filter_by_currency():
-    transactions = [
-        {
-            "operationAmount": {"currency": {"code": "USD"}},
-            "description": "Transaction 1",
-        },
-        {
-            "operationAmount": {"currency": {"code": "RUB"}},
-            "description": "Transaction 2",
-        },
+@pytest.fixture
+def sample_transactions():
+    """
+    Фикстура для предоставления списка примерных транзакций.
+    """
+    return [
+        {"id": 1, "amount": 100, "currency": "USD", "description": "Payment for services"},
+        {"id": 2, "amount": 200, "currency": "EUR", "description": "Refund"},
+        {"id": 3, "amount": 150, "currency": "USD", "description": "Salary"},
     ]
-    usd_transactions = filter_by_currency(transactions, "USD")
-    assert next(usd_transactions)["description"] == "Transaction 1"
 
 
-def test_transaction_descriptions():
-    transactions = [
-        {"description": "Transaction 1"},
-        {"description": "Transaction 2"},
-    ]
-    descriptions = transaction_descriptions(transactions)
-    assert next(descriptions) == "Transaction 1"
-    assert next(descriptions) == "Transaction 2"
+def test_filter_by_currency(sample_transactions):
+    """
+    Тест для функции filter_by_currency.
+    """
+    result = filter_by_currency(sample_transactions, "USD")
+    assert len(result) == 2
+    assert all(transaction["currency"] == "USD" for transaction in result)
+
+
+def test_transaction_descriptions(sample_transactions):
+    """
+    Тест для функции transaction_descriptions.
+    """
+    result = transaction_descriptions(sample_transactions)
+    assert result == ["Payment for services", "Refund", "Salary"]
 
 
 def test_card_number_generator():
-    generator = card_number_generator(1, 3)
-    assert next(generator) == "0000000000000001"
-    assert next(generator) == "0000000000000002"
-    assert next(generator) == "0000000000000003"
+    """
+    Тест для функции card_number_generator.
+    """
+    result = list(card_number_generator(1, 3))
+    assert result == ["0000000000000001", "0000000000000002", "0000000000000003"]
