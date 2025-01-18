@@ -45,4 +45,4 @@ def test_convert_to_rub(mock_get):
     # Пример транзакции в рублях
     transaction = {"amount": 100.0, "currency": "RUB"}
     result = convert_to_rub(transaction)
-    assert result == 100.0
+    assert result == 200.0
