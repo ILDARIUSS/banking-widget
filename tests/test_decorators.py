@@ -1,4 +1,5 @@
 import pytest
+import logging
 from src.decorators import log
 
 
@@ -14,20 +15,24 @@ def divide(a, b):
     return a / b
 
 
-def test_log_to_console(capsys):
+def test_log_to_console(caplog):
     # Проверяем логирование в консоль при успешном выполнении
-    result = add(2, 3)
-    assert result == 5
-    captured = capsys.readouterr()
-    assert "Calling function add with args: (2, 3)" in captured.out
-    assert "Function add completed successfully. Result: 5" in captured.out
+    with caplog.at_level(logging.INFO):
+        result = add(2, 3)
+        assert result == 5
 
-    # Проверяем логирование в консоль при ошибке
+    # Проверяем записи в логах
+    assert "Calling function add with args: (2, 3)" in caplog.text
+    assert "Function add completed successfully. Result: 5" in caplog.text
+    assert "Execution time of add:" in caplog.text
+
+    # Проверяем логирование при ошибке
     with pytest.raises(ZeroDivisionError):
-        divide(1, 0)
-    captured = capsys.readouterr()
-    assert "Function divide raised an error: ZeroDivisionError" in captured.out
-    assert "Inputs: (1, 0)" in captured.out
+        with caplog.at_level(logging.ERROR):
+            divide(1, 0)
+
+    assert "Function divide raised an error: ZeroDivisionError" in caplog.text
+    assert "Inputs: (1, 0)" in caplog.text
 
 
 def test_log_to_file(tmp_path):
