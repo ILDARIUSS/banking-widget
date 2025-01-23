@@ -1,5 +1,7 @@
+from typing import Dict, List
+
 import pandas as pd
-from typing import List, Dict
+
 
 def read_transactions_from_csv(file_path: str) -> List[Dict]:
     """
@@ -14,6 +16,7 @@ def read_transactions_from_csv(file_path: str) -> List[Dict]:
         return transactions
     except Exception as e:
         raise ValueError(f"Ошибка при чтении CSV-файла: {e}")
+
 
 def read_transactions_from_excel(file_path: str) -> List[Dict]:
     """

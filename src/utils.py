@@ -1,10 +1,12 @@
 # src/utils.py
-from src.logger_setup import setup_logger
 import json
 import os
 
+from src.logger_setup import setup_logger
+
 # Настраиваем логгер для модуля
 logger = setup_logger("utils")
+
 
 def read_json_file(file_path):
     """

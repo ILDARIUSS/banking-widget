@@ -1,7 +1,10 @@
 # tests/test_external_api.py
-import pytest
 from unittest import mock
+
+import pytest
+
 from src.external_api import convert_to_rub
+
 
 @mock.patch("requests.get")
 def test_convert_to_rub_success(mock_get):
@@ -12,6 +15,7 @@ def test_convert_to_rub_success(mock_get):
     transaction = {"amount": 100.0, "currency": "USD"}
     result = convert_to_rub(transaction)
     assert result == 75.0
+
 
 @mock.patch("requests.get")
 def test_convert_to_rub_failure(mock_get):
